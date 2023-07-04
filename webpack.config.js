@@ -1,7 +1,7 @@
 const path = require("path");
 
-
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const config = {
     entry: ["./src/index.css", "./src/script.jsx"],
@@ -11,6 +11,7 @@ const config = {
     mode: "production",
     optimization: {
         usedExports: true,
+        minimizer: [new CssMinimizerPlugin()],
     },
     plugins: [new MiniCssExtractPlugin()],
     module: {
@@ -21,7 +22,12 @@ const config = {
             },
             {
                 test: /\.css$/i,
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    "css-loader",
+                ],
             },
         ],
     },
